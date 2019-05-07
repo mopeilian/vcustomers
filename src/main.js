@@ -3,16 +3,19 @@
 import Vue from 'vue'
 // import App from './App'
 import VueRouter from 'vue-router'
-import VueResource from 'vue-resource'
+// import VueResource from 'vue-resource'
+import axios from 'axios'
 
 import Customers from './components/Customers'
 import About from './components/About'
 import Add from './components/Add'
+import CustomerDetails from './components/CustomerDetails'
+import Edit from './components/Edit'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
-Vue.use(VueResource)
-
+// Vue.use(VueResource)
+Vue.prototype.$http=axios
 //设置路由
 const router =new VueRouter({
     mode:"history",
@@ -21,6 +24,8 @@ const router =new VueRouter({
         {path:'/',component:Customers},
         {path:'/about',component:About},
         {path:'/add',component:Add},
+        {path:'/customer/:id',component:CustomerDetails},
+        {path:'/edit/:id',component:Edit}
     ]
 
 })

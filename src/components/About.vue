@@ -1,6 +1,7 @@
 <template>
     <div class="about contanier">
-        ABOUT
+        <h1 class="page-header">快快快快暖暖暖暖暖暖暖暖暖暖暖暖暖</h1>
+        <p>fffffffffffffffffffffffffffffffff</p>
     </div>
 </template>
 

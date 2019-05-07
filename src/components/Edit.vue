@@ -1,8 +1,8 @@
 <template>
     <div class="add contanier">
-        <h1 class="page-header">添加用户</h1>
+        <h1 class="page-header">修改用户</h1>
         <Alert v-if="alert" v-bind:message="alert"></Alert>
-        <form v-on:submit.prevent="addCustomer">
+        <form v-on:submit.prevent="updateCustomer">
             <div class="well">
                 <h4>用户信息</h4>
                 <div class="form-group">
@@ -34,7 +34,7 @@
                     <!--<input type="text" class="form-control" placeholder="name" v-model="customer.profile"/>-->
                     <textarea class="form-control" row="10" v-model="customer.profile">profile</textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">添加</button>
+                <button type="submit" class="btn btn-primary">确认</button>
             </div>
         </form>
     </div>
@@ -51,12 +51,19 @@
             }
         },
         methods:{
-            addCustomer(e){
+            fetchCustomer(id){
+                this.$http.get("http://localhost:3000/users/"+id)
+                    .then((response)=>{
+//                        console.log(response.body);
+                        this.customer=response.data;
+                    })
+            },
+            updateCustomer(e){
                 if(!this.customer.name || !this.customer.phone || !this.customer.email){
 //                    console.log("请添加用户信息")
                     this.alert="请添加用户信息";
                 }else{
-                    var newCustomer = {
+                    var updateCustomer = {
                         name:this.customer.name,
                         phone:this.customer.phone,
                         email:this.customer.email,
@@ -65,15 +72,18 @@
                         profession:this.customer.profession,
                         profile:this.customer.profile
                     }
-                    this.$http.post("http://localhost:3000/users",newCustomer)
+                    this.$http.put("http://localhost:3000/users/"+this.$route.params.id,updateCustomer)
                         .then((response)=>{
 //                            console.log(response)
-                            this.$router.push({path:'/',query:{alert:"用户信息添加成功！"}})
+                            this.$router.push({path:'/',query:{alert:"用户信息修改成功！"}})
                         })
 //                    e.preventDefault();
                 }
 //                e.preventDefault();//阻止默认事件
             }
+        },
+        created(){
+            this.fetchCustomer(this.$route.params.id);
         },
         components:{
             Alert
